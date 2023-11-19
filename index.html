@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Datos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="alerta" class="alerta-container">
+        <p class="alerta-mensaje">¡Alerta! Se ha detectado humo.</p>
+    </div>
+
+    <div class="container">
+        <h1>ISOM</h1>
+        <p id="valor-humedad">Humedad: <span id="valor-actual-humedad">Cargando...</span></p>
+        <p id="valor-luz">Luz: <span id="valor-actual-luz">Cargando...</span></p>
+        <p id="valor-monoxido">Monóxido de Carbono: <span id="valor-actual-monoxido">Cargando...</span></p>
+        <p id="valor-temperatura">Temperatura: <span id="valor-actual-temperatura">Cargando...</span></p>
+        <p id="valor-humo">Humo: <span id="valor-actual-humo">Cargando...</span></p>
+    </div>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
