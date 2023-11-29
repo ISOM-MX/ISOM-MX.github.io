@@ -2,7 +2,7 @@
        
        // Import the functions you need from the SDKs you need
        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-       import { getDatabase, ref, onValue} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+       import { getDatabase, ref, onValue, set} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
        
        // TODO: Add SDKs for Firebase products that you want to use
        // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,6 +28,71 @@ const dbRefTemperatura = ref(database, "/temperatura");
 const dbRefHumo = ref(database, "/humo");
 const dbRefLuz = ref(database, "/luz");
 const dbRefMonoxido = ref(database, "/monoxido");
+const dbRefVent = ref(database, "/ventilador");
+
+//////////////
+
+
+// Utiliza la referencia correcta para el ventilador
+
+// Obtener referencia al botón y al span para mostrar el estado
+const btnVentilador = document.getElementById("btn-ventilador");
+const spanEstadoVentilador = document.getElementById("valor-actual-humo");
+
+// Variable para almacenar el estado actual del ventilador
+let ventiladorEncendido = false;
+
+// Función para cambiar el estado del ventilador y enviar el valor a la base de datos
+function toggleVentilador() {
+    ventiladorEncendido = !ventiladorEncendido;
+
+    if (ventiladorEncendido) {
+        btnVentilador.textContent = "Apagar Ventilador";
+        spanEstadoVentilador.textContent = "Encendido";
+        btnVentilador.style.backgroundColor = "#DB3434"; // Rojo
+        set(dbRefVent, true);
+    } else {
+        btnVentilador.textContent = "Encender Ventilador";
+        spanEstadoVentilador.textContent = "Apagado";
+
+        btnVentilador.style.backgroundColor = "#4CAF50"; // Verde
+        set(dbRefVent, false);
+    }
+}
+
+// Agregar un listener de clic al botón
+btnVentilador.addEventListener("click", toggleVentilador);
+
+// Función para leer el estado inicial del ventilador al cargar la página
+function leerEstadoInicialVentilador() {
+    onValue(dbRefVent, (snapshot) => {
+        if (snapshot.exists()) {
+            ventiladorEncendido = snapshot.val();
+            actualizarTextoBoton();
+        } else {
+            console.log("No hay datos disponibles para el ventilador");
+        }
+    });
+}
+
+// Función para actualizar el texto del botón según el estado actual del ventilador
+function actualizarTextoBoton() {
+    if (ventiladorEncendido) {
+        btnVentilador.textContent = "Apagar Ventilador";
+        spanEstadoVentilador.textContent = "Encendido";
+    } else {
+        btnVentilador.textContent = "Encender Ventilador";
+        spanEstadoVentilador.textContent = "Apagado";
+    }
+}
+
+// Llama a la función para leer el estado inicial al cargar la página
+leerEstadoInicialVentilador();
+
+
+/////////////////
+
+
 
 let alertaMostrada = false;
 
